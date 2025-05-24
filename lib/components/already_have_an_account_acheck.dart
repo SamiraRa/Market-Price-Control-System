@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_price_control_app/constants.dart';
+import 'package:market_price_control_app/utils/constants.dart';
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;

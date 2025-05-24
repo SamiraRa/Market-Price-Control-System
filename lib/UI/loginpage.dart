@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:market_price_control_app/UI/area_screen.dart';
+import 'package:market_price_control_app/UI/homepage.dart';
 import 'package:market_price_control_app/UI/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
-                                hintText: "Student Id",
+                                hintText: "Email",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
@@ -80,11 +85,11 @@ class _LoginPageState extends State<LoginPage> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             const HomepageScreen()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Homepage()));
                                     },
                                     icon: const Icon(
                                       Icons.arrow_forward,

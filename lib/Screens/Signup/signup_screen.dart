@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_price_control_app/constants.dart';
+import 'package:market_price_control_app/utils/constants.dart';
 import 'package:market_price_control_app/responsive.dart';
 import '../../components/background.dart';
 import 'components/sign_up_top_image.dart';

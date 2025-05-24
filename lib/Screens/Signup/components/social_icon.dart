@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:market_price_control_app/constants.dart';
+import 'package:market_price_control_app/utils/constants.dart';
 
 class SocalIcon extends StatelessWidget {
   final String? iconSrc;

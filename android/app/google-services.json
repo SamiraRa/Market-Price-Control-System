@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "642915802728",
+    "project_id": "flutter-firebase-4617a",
+    "storage_bucket": "flutter-firebase-4617a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642915802728:android:8e474142c222928295e5dd",
+        "android_client_info": {
+          "package_name": "com.example.crypto_tracking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqct-MRFTX_ADx7awTX9mStaHspT44_IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642915802728:android:d9b04480e1b1ae7795e5dd",
+        "android_client_info": {
+          "package_name": "com.example.guruji"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqct-MRFTX_ADx7awTX9mStaHspT44_IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642915802728:android:eb6899e8099bd5f195e5dd",
+        "android_client_info": {
+          "package_name": "com.example.market_price_control_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqct-MRFTX_ADx7awTX9mStaHspT44_IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

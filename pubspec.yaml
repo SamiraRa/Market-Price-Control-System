@@ -37,6 +37,23 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.10+1
   animated_custom_dropdown:
+  badges: ^3.1.1
+  bloc: ^8.1.1
+  cached_network_image: ^3.2.3
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.2
+  geocoding: ^2.1.0
+  geolocator: ^9.0.2
+  hive_flutter: ^1.1.0
+  http: ^1.0.0
+  # location:
+  permission_handler: ^10.2.0
+  photo_view: ^0.14.0
+  device_info_plus: 
+  flutter_launcher_icons:
+  firebase_core: ^2.1.0
+  firebase_auth: ^4.0.2
+  pinput: ^2.2.16
 
 dev_dependencies:
   flutter_test:
