@@ -2,10 +2,14 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geolocator/geolocator.dart';
+import 'package:market_price_control_app/UI/all_item_screen.dart';
 import 'package:market_price_control_app/UI/explore.dart';
+import 'package:market_price_control_app/UI/loginpage.dart';
 import 'package:market_price_control_app/UI/product_details_screen.dart';
 import 'package:market_price_control_app/UI/submitted_report_screen.dart';
+import 'package:market_price_control_app/local_storage/boxes.dart';
 import 'package:market_price_control_app/models/product_hierarchy_model.dart';
+import 'package:market_price_control_app/models/user_login.dart';
 import 'package:market_price_control_app/utils/constants.dart';
 import 'package:market_price_control_app/utils/dummy_data.dart';
 
@@ -21,12 +25,17 @@ class _HomepageState extends State<Homepage> {
   TextEditingController? subProductController = TextEditingController();
   List<String> productList = ["Meat", "Daal/Lentils", "Rice", "Noodles"];
   List<String> subProductList = ["Beef", "Mutton", "Lamb"];
-  List<String> subCategoryList = [];
+  List<SubCategoryList> subCategoryList = [];
   List<String> categoryList = [];
   List<Items> itemList = [];
+  List<Items> vegetablesList = [];
+  List<Items> meatPoultyList = [];
+  List<Items> fishSeafoodList = [];
   List<ProductHierarchyModel> fullProductList = [];
   String address = '';
+  String userName = '';
   double latitude = 0.0;
+  UserLogin? userLogin;
   double longitude = 0.0;
   List<Map<String, dynamic>> divisionList = [
     {
@@ -74,7 +83,7 @@ class _HomepageState extends State<Homepage> {
     },
     {
       "name": "Mymensingh",
-      "color": const Color(0xFF1A237E), // Deep indigo
+      "color": Color.fromARGB(255, 71, 83, 225), // Deep indigo
       "borderColor": const Color(0xFF7986CB), // Light indigo
       "select": false
     },
@@ -98,10 +107,13 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
+    userLogin = Boxes.getLoginData().get('userLogin');
+    userName = userLogin!.username;
     fullProductList = productHierarchyModelFromJson(DemoData.productList);
-    categoryList =
-        fullProductList.map((element) => element.category.toString()).toList();
-
+    categoryList = fullProductList.map((element) => element.category.toString()).toList();
+    vegetablesList = fullProductList[0].subCategoryList.expand((e) => e.items).toList();
+    meatPoultyList = fullProductList[2].subCategoryList.expand((e) => e.items).toList();
+    fishSeafoodList = fullProductList[3].subCategoryList.expand((e) => e.items).toList();
     // subCategoryList =
     // Parse the JSON into ProductHierarchy model
     // for (var element in fullProductList) {
@@ -140,28 +152,29 @@ class _HomepageState extends State<Homepage> {
                 GridView.builder(
                     shrinkWrap: true,
                     itemCount: divisionList.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3, // number of items in each row
                       mainAxisSpacing: 8.0, // spacing between rows
                       crossAxisSpacing: 8.0, // spacing between columns
                     ),
                     itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: divisionList[index]["color"],
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                width: 2,
-                                color: divisionList[index]["borderColor"])),
-                        child: Center(
-                            child: Text(
-                          divisionList[index]["name"],
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        )),
+                      return InkWell(
+                        onTap: () {
+                          address = divisionList[index]["name"];
+                          Navigator.of(context).pop();
+                          setState(() {});
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: divisionList[index]["color"],
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 2, color: divisionList[index]["borderColor"])),
+                          child: Center(
+                              child: Text(
+                            divisionList[index]["name"],
+                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                          )),
+                        ),
                       );
                     })
               ],
@@ -176,225 +189,343 @@ class _HomepageState extends State<Homepage> {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 229, 240),
         appBar: homeAppBar(context),
-        body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // SizedBox(
-            //   height: 110,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: categoryList.length,
-            //     itemBuilder: (context, index) {
-            //       return InkWell(
-            //         onTap: () {
-            //           // Find the selected category in fullProductList
-            //           final selectedCategory = categoryList[index];
-            //           int selectedProduct = fullProductList.indexWhere(
-            //             (element) => element.category == selectedCategory,
-            //           );
-            //           subCategoryList = fullProductList[index]
-            //               .subCategoryList
-            //               .map((element) => element.subCategory)
-            //               .toList();
-            //           setState(() {
-            //             print(selectedProduct);
-            //           });
-            //         },
-            //         child: Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //           child: Container(
-            //             height: 80,
-            //             width: 100,
-            //             decoration: BoxDecoration(
-            //               // color: Color.fromARGB(255, 77, 108, 243),
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                     color:
-            //                         Colors.deepPurple.shade50.withOpacity(0.8),
-            //                     blurRadius: 5,
-            //                     spreadRadius: 2,
-            //                     blurStyle: BlurStyle.inner),
-            //                 BoxShadow(
-            //                     color: Colors.black.withOpacity(0.1),
-            //                     offset: const Offset(0, 2),
-            //                     blurRadius: 5,
-            //                     spreadRadius: 2,
-            //                     blurStyle: BlurStyle.normal)
-            //               ],
-            //               border: Border.all(color: Colors.white),
-            //               borderRadius:
-            //                   const BorderRadius.all(Radius.circular(15)),
-            //             ),
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(8.0),
-            //               child: Center(
-            //                 child: Text(
-            //                   categoryList[index],
-            //                   textAlign: TextAlign.center,
-            //                   style: const TextStyle(
-            //                     color: Colors.black87,
-            //                     fontWeight: FontWeight.w600,
-            //                     fontSize: 13,
-            //                   ),
-            //                   maxLines: 2,
-            //                   overflow: TextOverflow.ellipsis,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
-            const SizedBox(
-              height: 10,
-            ),
-            // IconButton(
-            //     onPressed: () {
-            //       showModalSheet();
-            //     },
-            //     icon: const Icon(Icons.abc))
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomDropdown.search(
-                      hintText: 'Select Category',
-                      items: categoryList,
-                      excludeSelected: false,
-                      onChanged: (value) {
-                        productController!.text = value!;
-                        final selectedCategory = value;
-                        int selectedProduct = fullProductList.indexWhere(
-                          (element) => element.category == selectedCategory,
-                        );
-                        final subCategory =
-                            fullProductList[selectedProduct].subCategoryList;
-                        itemList.clear();
-                        for (var subCat in subCategory) {
-                          itemList.addAll(subCat
-                              .items); // or subCat.itemList if using models
-                        }
-                        setState(() {});
-                      },
-                      headerBuilder: (context, selectedItem, enabled) {
-                        return Text(
-                          selectedItem,
-                          style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w400),
-                        );
-                      },
-                      hintBuilder: (context, selectedItem, enabled) {
-                        return SizedBox(
-                          height: 20,
-                          child: Text(
+        body: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // SizedBox(
+              //   height: 110,
+              //   child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: categoryList.length,
+              //     itemBuilder: (context, index) {
+              //       return InkWell(
+              //         onTap: () {
+              //           // Find the selected category in fullProductList
+              //           final selectedCategory = categoryList[index];
+              //           int selectedProduct = fullProductList.indexWhere(
+              //             (element) => element.category == selectedCategory,
+              //           );
+              //           subCategoryList = fullProductList[index]
+              //               .subCategoryList
+              //               .map((element) => element.subCategory)
+              //               .toList();
+              //           setState(() {
+              //             print(selectedProduct);
+              //           });
+              //         },
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //           child: Container(
+              //             height: 80,
+              //             width: 100,
+              //             decoration: BoxDecoration(
+              //               // color: Color.fromARGB(255, 77, 108, 243),
+              //               boxShadow: [
+              //                 BoxShadow(
+              //                     color:
+              //                         Colors.deepPurple.shade50.withOpacity(0.8),
+              //                     blurRadius: 5,
+              //                     spreadRadius: 2,
+              //                     blurStyle: BlurStyle.inner),
+              //                 BoxShadow(
+              //                     color: Colors.black.withOpacity(0.1),
+              //                     offset: const Offset(0, 2),
+              //                     blurRadius: 5,
+              //                     spreadRadius: 2,
+              //                     blurStyle: BlurStyle.normal)
+              //               ],
+              //               border: Border.all(color: Colors.white),
+              //               borderRadius:
+              //                   const BorderRadius.all(Radius.circular(15)),
+              //             ),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(8.0),
+              //               child: Center(
+              //                 child: Text(
+              //                   categoryList[index],
+              //                   textAlign: TextAlign.center,
+              //                   style: const TextStyle(
+              //                     color: Colors.black87,
+              //                     fontWeight: FontWeight.w600,
+              //                     fontSize: 13,
+              //                   ),
+              //                   maxLines: 2,
+              //                   overflow: TextOverflow.ellipsis,
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
+              const SizedBox(
+                height: 10,
+              ),
+              // IconButton(
+              //     onPressed: () {
+              //       showModalSheet();
+              //     },
+              //     icon: const Icon(Icons.abc))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomDropdown.search(
+                        hintText: 'Select Category',
+                        items: categoryList,
+                        excludeSelected: false,
+                        onChanged: (value) {
+                          productController!.text = value!;
+                          final selectedCategory = value;
+                          int selectedProduct = fullProductList.indexWhere(
+                            (element) => element.category == selectedCategory,
+                          );
+                          subCategoryList = fullProductList[selectedProduct].subCategoryList;
+
+                          // subCategoryList = subCategory.map((e) => e.subCategory).toList();
+                          // itemList.clear();
+                          // for (var subCat in subCategory) {
+                          //   itemList.addAll(subCat
+                          //       .items); // or subCat.itemList if using models
+                          // }
+                          setState(() {});
+                        },
+                        headerBuilder: (context, selectedItem, enabled) {
+                          return Text(
                             selectedItem,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                      // decoration: CustomDropdownDecoration(),
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) {
-                        return SizedBox(
-                          width: double.maxFinite,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: CustomDropdown.search(
-                      hintText: 'Select Sub Category',
-                      items: subCategoryList,
-                      excludeSelected: false,
-                      onChanged: (value) {
-                        subProductController!.text = value!;
-
-                        final selectedSubCategory = value;
-
-                        int selectedProduct = fullProductList.indexWhere(
-                          (element) => element.category == selectedSubCategory,
-                        );
-
-                        final sucCatg =
-                            fullProductList[selectedProduct].subCategoryList;
-                        itemList.clear();
-                        for (var e in sucCatg) {
-                          itemList.addAll(e.items);
-                        }
-                        setState(() {});
-                        // log('changing value to: $value');
-                      },
-                      headerBuilder: (context, selectedItem, enabled) {
-                        return Text(
-                          selectedItem,
-                          style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w400),
-                        );
-                      },
-                      hintBuilder: (context, selectedItem, enabled) {
-                        return SizedBox(
-                          height: 20,
-                          child: Text(
-                            selectedItem,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        );
-                      },
-                      listItemBuilder:
-                          (context, item, isSelected, onItemSelect) {
-                        return SizedBox(
-                          width: double.maxFinite,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                          );
+                        },
+                        hintBuilder: (context, selectedItem, enabled) {
+                          return SizedBox(
+                            height: 20,
+                            child: Text(
+                              selectedItem,
+                              style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis, color: Colors.black87, fontWeight: FontWeight.w400),
+                            ),
+                          );
+                        },
+                        // decoration: CustomDropdownDecoration(),
+                        listItemBuilder: (context, item, isSelected, onItemSelect) {
+                          return SizedBox(
+                            width: double.maxFinite,
                             child: Text(
                               item,
+                              style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: CustomDropdown.search(
+                        hintText: 'Select Sub Category',
+                        items: subCategoryList.map((e) => e.subCategory).toList(),
+                        excludeSelected: false,
+                        onChanged: (value) {
+                          subProductController!.text = value!;
+
+                          final selectedSubCategory = value;
+
+                          int selectedProduct = subCategoryList.indexWhere(
+                            (element) => element.subCategory == selectedSubCategory,
+                          );
+
+                          itemList.clear();
+                          itemList = subCategoryList[selectedProduct].items;
+                          // for (var e in subCatg) {
+                          //   itemList.addAll(e.items);
+                          // }
+                          setState(() {});
+                          // log('changing value to: $value');
+                        },
+                        headerBuilder: (context, selectedItem, enabled) {
+                          return Text(
+                            selectedItem,
+                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                          );
+                        },
+                        hintBuilder: (context, selectedItem, enabled) {
+                          return SizedBox(
+                            height: 20,
+                            child: Text(
+                              selectedItem,
                               style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w400),
+                                  overflow: TextOverflow.ellipsis, color: Colors.black87, fontWeight: FontWeight.w400),
+                            ),
+                          );
+                        },
+                        listItemBuilder: (context, item, isSelected, onItemSelect) {
+                          return SizedBox(
+                            width: double.maxFinite,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                item,
+                                style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              itemList.isEmpty
+                  ? Column(
+                      children: [
+                        ItemCardWidget(
+                          productSubCat: "Meat",
+                          productController: productController,
+                          subProductController: subProductController,
+                          productList: meatPoultyList,
+                          fullProductList: fullProductList,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        ItemCardWidget(
+                          productSubCat: "Vegetables",
+                          productController: productController,
+                          subProductController: subProductController,
+                          productList: vegetablesList,
+                          fullProductList: fullProductList,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        ItemCardWidget(
+                          productSubCat: "Fish & Seafood",
+                          productController: productController,
+                          subProductController: subProductController,
+                          productList: fishSeafoodList,
+                          fullProductList: fullProductList,
+                        ),
+                      ],
+                    )
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: itemList.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12.0,
+                        crossAxisSpacing: 12.0,
+                        childAspectRatio: 2.9 / 3,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemBuilder: (context, index) {
+                        final item = itemList[index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailsScreen(
+                                  image: "",
+                                  productCat: productController!.text,
+                                  productSubCat: subProductController!.text,
+                                  product: item,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.deepPurple.shade50.withOpacity(0.8),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
+                                  blurStyle: BlurStyle.inner,
+                                ),
+                                BoxShadow(
+                                  color: Colors.black54.withOpacity(0.1),
+                                  offset: const Offset(0, 2),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
+                                  blurStyle: BlurStyle.normal,
+                                ),
+                              ],
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: 80,
+                                    height: 60,
+                                    child: const CircleAvatar(
+                                      backgroundColor: Colors.amberAccent,
+                                    ),
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  item.itemName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(item.itemPrice),
+                                    Text(item.itemWeight),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         );
                       },
                     ),
-                  ),
-                ],
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ItemCardWidget(
-              productSubCat: "Meat",
-              productController: productController,
-              subProductController: subProductController,
-              productList: meatList,
-            )
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: Container(
-          color: Colors.white,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.deepPurple.shade50.withOpacity(0.8),
+                blurRadius: 5,
+                spreadRadius: 2,
+                blurStyle: BlurStyle.inner,
+              ),
+              BoxShadow(
+                color: Colors.black54.withOpacity(0.1),
+                offset: const Offset(0, 2),
+                blurRadius: 5,
+                spreadRadius: 2,
+                blurStyle: BlurStyle.normal,
+              ),
+            ],
+          ),
           child: Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: Row(
@@ -423,11 +554,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) =>
-                                const SubmittedReportScreen())));
+                    Navigator.push(context, MaterialPageRoute(builder: ((context) => const SubmittedReportScreen())));
                   },
                   icon: const Icon(
                     Icons.report,
@@ -448,6 +575,33 @@ class _HomepageState extends State<Homepage> {
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'logout') {
+                // Implement your logout logic here
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: 'name',
+                enabled: false,
+                child: Text(userName),
+              ),
+              // const PopupMenuDivider(),
+              PopupMenuItem<String>(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                      context, MaterialPageRoute(builder: (contex) => LoginPage()), (route) => false);
+                },
+                value: 'logout',
+                child: Text('Logout'),
+              ),
+            ],
+          )
+        ],
         title: const Text(
           "HOMEPAGE",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
@@ -460,8 +614,7 @@ class _HomepageState extends State<Homepage> {
               bottomRight: Radius.circular(25),
             ),
           ),
-          padding:
-              const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 10),
+          padding: const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -582,13 +735,11 @@ class _HomepageState extends State<Homepage> {
     LocationPermission permission = await Geolocator.checkPermission();
     LocationPermission asked = await Geolocator.requestPermission();
 
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
+    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
       print('Permission not given.');
       asked = await Geolocator.requestPermission();
     } else {
-      Position currentPosition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if (!mounted) return;
       setState(() {
         latitude = currentPosition.latitude;
@@ -599,8 +750,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   getAddress(lat, long) async {
-    List<geo.Placemark> placemarks =
-        await geo.placemarkFromCoordinates(lat, long);
+    List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(lat, long);
     // print(placemarks);
     setState(() {
       address =
@@ -614,13 +764,15 @@ class _HomepageState extends State<Homepage> {
 
 class ItemCardWidget extends StatelessWidget {
   final String productSubCat;
-  final List productList;
+  final List<Items> productList;
+  final List<ProductHierarchyModel> fullProductList;
   const ItemCardWidget({
     super.key,
     required this.productController,
     required this.subProductController,
     required this.productSubCat,
     required this.productList,
+    required this.fullProductList,
   });
 
   final TextEditingController? productController;
@@ -637,45 +789,46 @@ class ItemCardWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color.fromARGB(255, 77, 108, 243), width: 2),
+                    border: Border.all(color: Color.fromARGB(255, 77, 108, 243), width: 2),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
                   child: Text(
                     productSubCat,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 77, 108, 243)),
+                        fontWeight: FontWeight.w600, fontSize: 15, color: Color.fromARGB(255, 77, 108, 243)),
                   ),
                 ),
               ),
-              const Row(
-                children: [
-                  Text(
-                    "View more",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 77, 108, 243)),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 77, 108, 243),
-                      child: Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        size: 14,
-                        color: Colors.white,
-                      ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AllItemScreen(fullProductList: fullProductList)));
+                },
+                child: const Row(
+                  children: [
+                    Text(
+                      "View more",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 15, color: Color.fromARGB(255, 77, 108, 243)),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 77, 108, 243),
+                        child: Icon(
+                          Icons.arrow_forward_ios_sharp,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -684,7 +837,7 @@ class ItemCardWidget extends StatelessWidget {
           height: 15,
         ),
         SizedBox(
-          height: 160,
+          height: 170,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: productList.length,
@@ -698,16 +851,17 @@ class ItemCardWidget extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductDetailsScreen(
-                          image: productList[index]["imageName"],
-                          productName: productList[index]["name"],
+                          image: "",
+                          // productName: productList[index].itemName,
                           productCat: productController!.text,
                           productSubCat: subProductController!.text,
+                          product: productList[index],
                         ),
                       ),
                     );
                   },
                   child: Container(
-                    width: 150,
+                    width: 160,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.white,
@@ -728,26 +882,45 @@ class ItemCardWidget extends StatelessWidget {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 5, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Stack(
+                          Column(
                             children: <Widget>[
-                              Image.asset(
-                                productList[index]["imageName"],
-                                width: 110,
-                                height: 80,
-                                fit: BoxFit.scaleDown,
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                child: Container(
+                                    width: 110,
+                                    height: 80,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.amberAccent,
+                                    )
+
+                                    //  Image.asset(
+                                    //   productList[index]["imageName"],
+                                    //   width: 110,
+                                    //   height: 80,
+                                    //   fit: BoxFit.scaleDown,
+                                    // ),
+                                    ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 18),
-                          Text(productList[index]["price"]),
-                          const SizedBox(height: 5),
                           Text(
-                            productList[index]["name"],
+                            productList[index].itemName,
                             overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(productList[index].itemPrice),
+                              Text(productList[index].itemWeight),
+                            ],
                           ),
                         ],
                       ),

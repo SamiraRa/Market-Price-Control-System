@@ -1,15 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:market_price_control_app/UI/submitted_report_screen.dart';
+import 'package:market_price_control_app/local_storage/boxes.dart';
+import 'package:market_price_control_app/models/submitted_report_model.dart';
+
+import '../models/product_hierarchy_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
+  Items product;
   String image;
-  String productName;
+  // String productName;
   String productCat;
   String productSubCat;
   ProductDetailsScreen({
     Key? key,
+    required this.product,
     required this.image,
-    required this.productName,
+    // required this.productName,
     required this.productCat,
     required this.productSubCat,
   }) : super(key: key);
@@ -19,6 +26,12 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  TextEditingController areaController = TextEditingController();
+  TextEditingController marketController = TextEditingController();
+  TextEditingController suggestedPriceController = TextEditingController();
+  TextEditingController itemWeightController = TextEditingController();
+  TextEditingController itemQtyController = TextEditingController();
+  List<SubmittedReport> reportList = [];
   int quantity = 0;
   @override
   void initState() {
@@ -28,8 +41,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
-    InputDecorationTheme inputDecoration =
-        Theme.of(context).inputDecorationTheme;
+    InputDecorationTheme inputDecoration = Theme.of(context).inputDecorationTheme;
 
     return SafeArea(
       child: Scaffold(
@@ -90,18 +102,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ],
                 ),
                 Text(
-                  widget.productName,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500),
+                  widget.product.itemName,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 Center(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height / 6,
                     width: MediaQuery.of(context).size.width / 2,
-                    child: Hero(
-                        tag: "aaaa",
-                        transitionOnUserGestures: true,
-                        child: Image.asset(widget.image)),
+                    child: widget.image == ""
+                        ? Text("")
+                        : Hero(tag: "aaaa", transitionOnUserGestures: true, child: Image.asset(widget.image)),
                   ),
                 ),
                 const SizedBox(
@@ -113,7 +123,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "350 | 280gm",
+                        "${widget.product.itemPrice}| ${widget.product.itemWeight}",
                         // "${widget.productDetail["price"]}| ${widget.productDetail["net-weight"]}",
                         style: const TextStyle(fontSize: 18),
                       ),
@@ -153,7 +163,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   height: 5,
                 ),
                 Text(
-                  "Fresh Indian spinach, ideal for curries.",
+                  widget.product.itemDetails,
                   // style: const TextStyle(
                   //     decoration: TextDecoration.underline,
                   //     fontSize: 16,
@@ -188,14 +198,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: SizedBox(
                         height: 50,
                         child: TextFormField(
+                          controller: areaController,
                           decoration: const InputDecoration(
                             labelText: 'Enter Area',
                             labelStyle: TextStyle(fontSize: 13),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -204,14 +212,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: SizedBox(
                         height: 50,
                         child: TextFormField(
+                          controller: marketController,
                           decoration: const InputDecoration(
                             labelText: 'Enter Market Name',
                             labelStyle: TextStyle(fontSize: 13),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -228,14 +234,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: SizedBox(
                         height: 50,
                         child: TextFormField(
+                          controller: suggestedPriceController,
                           decoration: const InputDecoration(
                             labelText: 'Suggest Your Price',
                             labelStyle: TextStyle(fontSize: 13),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -245,14 +249,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: SizedBox(
                         height: 50,
                         child: TextFormField(
+                          controller: itemWeightController,
                           decoration: const InputDecoration(
                             labelText: 'Net Weight',
                             labelStyle: TextStyle(fontSize: 13),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -262,14 +264,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: SizedBox(
                         height: 50,
                         child: TextFormField(
+                          controller: itemQtyController,
                           decoration: const InputDecoration(
                             labelText: 'Quantity',
                             labelStyle: TextStyle(fontSize: 13),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                           ),
-                          keyboardType: TextInputType.number,
                         ),
                       ),
                     ),
@@ -291,14 +291,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       fixedSize: const Size(170, 40),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      final report = SubmittedReport(
+                        date: DateTime.now().toString(),
+                        marketName: marketController.text,
+                        suggestedPrice: suggestedPriceController.text,
+                        prevPrice: widget.product.itemPrice,
+                        itemName: widget.product.itemName,
+                        itemImage: "",
+                        itemDetails: widget.product.itemDetails,
+                        expDate: widget.product.expDate,
+                        batchDate: widget.product.batchDate,
+                        itemId: widget.product.itemId,
+                        itemWeight: widget.product.itemWeight,
+                        itemQty: widget.product.itemQuantity,
+                        category: widget.productCat,
+                        subCategory: widget.productSubCat,
+                      );
+                      Boxes.getReportData().put('reportList', report);
+                      // reportList.add(report);
+                      Navigator.push(context, MaterialPageRoute(builder: (contex) => SubmittedReportScreen()));
                     },
                     child: const Text(
                       "Submit",
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 )

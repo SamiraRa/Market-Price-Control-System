@@ -1,6 +1,7 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:market_price_control_app/UI/loginpage.dart';
+import 'package:pinput/pinput.dart';
 // import 'package:market_price_control_app/UI/loginpage.dart';
 // import 'package:pinput/pinput.dart';
 
@@ -33,8 +34,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/images/register.png'), fit: BoxFit.cover),
+        image: DecorationImage(image: AssetImage('assets/images/register.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -53,8 +53,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.28),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -201,10 +200,7 @@ class _SignupPageState extends State<SignupPage> {
                             children: [
                               const Text(
                                 'Sign Up',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 27,
-                                    fontWeight: FontWeight.w700),
+                                style: TextStyle(color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
@@ -212,6 +208,20 @@ class _SignupPageState extends State<SignupPage> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () async {
+                                      if (phoneController.text == "01713380485" &&
+                                          emailController.text == "abc@gmail.com" &&
+                                          passwordController.text == "123456") {
+                                        showEditBottomSheetValues(context);
+                                      } else {
+                                        // FlutterToast
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Invalid credentials. Please check your phone, email, or password.'),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
                                       // await FirebaseAuth.instance
                                       //     .verifyPhoneNumber(
                                       //   phoneNumber: phoneController.text,
@@ -234,11 +244,8 @@ class _SignupPageState extends State<SignupPage> {
                                       //       (String verificationId) {},
                                       // );
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const LoginPage()));
+                                      // Navigator.push(
+                                      //     context, MaterialPageRoute(builder: (context) => const LoginPage()));
                                     },
                                     icon: const Icon(
                                       Icons.arrow_forward,
@@ -285,203 +292,181 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // void showEditBottomSheetValues(BuildContext context) {
-  //   const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
-  //   const fillColor = Color.fromRGBO(243, 246, 249, 0);
-  //   const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
-  //   var screenHeight = MediaQuery.of(context).size.height;
-  //   var screenWidth = MediaQuery.of(context).size.width;
+  void showEditBottomSheetValues(BuildContext context) {
+    const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
+    const fillColor = Color.fromRGBO(243, 246, 249, 0);
+    const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
+    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
 
-  //   final defaultPinTheme = PinTheme(
-  //     width: 56,
-  //     height: 56,
-  //     textStyle: const TextStyle(
-  //       fontSize: 22,
-  //       color: Color.fromRGBO(30, 60, 87, 1),
-  //     ),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(8),
-  //       border: Border.all(color: focusedBorderColor),
-  //     ),
-  //   );
-  //   showModalBottomSheet(
-  //     // constraints: const BoxConstraints(maxHeight: double.infinity),
-  //     context: context,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(
-  //         top: Radius.circular(15.0),
-  //       ),
-  //     ),
-  //     isScrollControlled: true,
-  //     isDismissible: false,
-  //     // enableDrag: true,
-  //     builder: (BuildContext context) {
-  //       return DraggableScrollableSheet(
-  //           expand: false,
-  //           snap: true,
-  //           builder: (_, controller) {
-  //             return StatefulBuilder(builder: (context, setState2) {
-  //               return SingleChildScrollView(
-  //                 controller: controller,
-  //                 child: Stack(
-  //                   children: [
-  //                     Padding(
-  //                       padding: EdgeInsets.only(
-  //                           left: 17,
-  //                           right: 17,
-  //                           bottom: MediaQuery.of(context).viewInsets.bottom,
-  //                           top: 20),
-  //                       child: Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.center,
-  //                         children: [
-  //                           SizedBox(
-  //                             height: 40,
-  //                           ),
-  //                           Center(
-  //                             child: Text(
-  //                               "Verification Code",
-  //                               style: TextStyle(
-  //                                   color: Colors.black,
-  //                                   fontSize: 18,
-  //                                   fontWeight: FontWeight.bold),
-  //                             ),
-  //                           ),
-  //                           SizedBox(
-  //                             height: 10,
-  //                           ),
-  //                           Text(
-  //                               "We've sent a 6 digit code to your phone number"),
-  //                           SizedBox(
-  //                             height: 5,
-  //                           ),
-  //                           Text("phone Number"),
-  //                           SizedBox(
-  //                             height: 30,
-  //                           ),
-  //                           Form(
-  //                             key: formKey,
-  //                             child: Column(
-  //                               mainAxisAlignment: MainAxisAlignment.center,
-  //                               children: [
-  //                                 Directionality(
-  //                                   // Specify direction if desired
-  //                                   textDirection: TextDirection.ltr,
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.all(16.0),
-  //                                     child: Pinput(
-  //                                       controller: pinController,
-  //                                       focusNode: focusNode,
-  //                                       length: 6,
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Color.fromRGBO(30, 60, 87, 1),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: focusedBorderColor),
+      ),
+    );
+    showModalBottomSheet(
+      // constraints: const BoxConstraints(maxHeight: double.infinity),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
+      ),
+      isScrollControlled: true,
+      isDismissible: false,
+      // enableDrag: true,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+            expand: false,
+            snap: true,
+            builder: (_, controller) {
+              return StatefulBuilder(builder: (context, setState2) {
+                return SingleChildScrollView(
+                  controller: controller,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 17, right: 17, bottom: MediaQuery.of(context).viewInsets.bottom, top: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Center(
+                              child: Text(
+                                "Verification Code",
+                                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("We've sent a 6 digit code to your phone number"),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text("phone Number"),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Form(
+                              key: formKey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Directionality(
+                                    // Specify direction if desired
+                                    textDirection: TextDirection.ltr,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Pinput(
+                                        controller: pinController,
+                                        focusNode: focusNode,
+                                        length: 6,
 
-  //                                       defaultPinTheme: defaultPinTheme,
+                                        defaultPinTheme: defaultPinTheme,
 
-  //                                       onChanged: (value) {
-  //                                         code = value;
-  //                                       },
-  //                                       // cursor: Column(
-  //                                       //   mainAxisAlignment: MainAxisAlignment.end,
-  //                                       //   children: [
-  //                                       //     Container(
-  //                                       //       margin: const EdgeInsets.only(bottom: 9),
-  //                                       //       width: 22,
-  //                                       //       height: 1,
-  //                                       //       color: focusedBorderColor,
-  //                                       //     ),
-  //                                       //   ],
-  //                                       // ),
-  //                                       focusedPinTheme:
-  //                                           defaultPinTheme.copyWith(
-  //                                         decoration: defaultPinTheme
-  //                                             .decoration!
-  //                                             .copyWith(
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(8),
-  //                                           border: Border.all(
-  //                                               color: focusedBorderColor),
-  //                                         ),
-  //                                       ),
-  //                                       submittedPinTheme:
-  //                                           defaultPinTheme.copyWith(
-  //                                         decoration: defaultPinTheme
-  //                                             .decoration!
-  //                                             .copyWith(
-  //                                           color: fillColor,
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(19),
-  //                                           border: Border.all(
-  //                                               color: focusedBorderColor),
-  //                                         ),
-  //                                       ),
-  //                                       errorPinTheme:
-  //                                           defaultPinTheme.copyBorderWith(
-  //                                         border: Border.all(
-  //                                             color: Colors.redAccent),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: 20,
-  //                                 ),
-  //                                 ElevatedButton(
-  //                                   style: ElevatedButton.styleFrom(
-  //                                       fixedSize: Size(screenWidth / 1.8, 40)),
-  //                                   onPressed: () async {
-  //                                     print(verificationID);
-  //                                     // formKey.currentState!.validate();
-  //                                     try {
-  //                                       PhoneAuthCredential credential =
-  //                                           PhoneAuthProvider.credential(
-  //                                               verificationId: verificationID,
-  //                                               smsCode: code);
+                                        onChanged: (value) {
+                                          code = value;
+                                        },
+                                        // cursor: Column(
+                                        //   mainAxisAlignment: MainAxisAlignment.end,
+                                        //   children: [
+                                        //     Container(
+                                        //       margin: const EdgeInsets.only(bottom: 9),
+                                        //       width: 22,
+                                        //       height: 1,
+                                        //       color: focusedBorderColor,
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        focusedPinTheme: defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme.decoration!.copyWith(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(color: focusedBorderColor),
+                                          ),
+                                        ),
+                                        submittedPinTheme: defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme.decoration!.copyWith(
+                                            color: fillColor,
+                                            borderRadius: BorderRadius.circular(19),
+                                            border: Border.all(color: focusedBorderColor),
+                                          ),
+                                        ),
+                                        errorPinTheme: defaultPinTheme.copyBorderWith(
+                                          border: Border.all(color: Colors.redAccent),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(fixedSize: Size(screenWidth / 1.8, 40)),
+                                    onPressed: () async {
+                                      if (pinController.text == "123456") {
+                                        Navigator.pushAndRemoveUntil(context,
+                                            MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                                      } else {
+                                        // FlutterToast
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('OTP is Invalid.'),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                      // formKey.currentState!.validate();
 
-  //                                       // Sign the user in (or link) with the credential
-  //                                       await auth
-  //                                           .signInWithCredential(credential);
-  //                                       // Navigator.pushNamedAndRemoveUntil(
-  //                                       //     context,
-  //                                       //     "/homepage",
-  //                                       //     (route) => false);
-  //                                     } catch (e) {
-  //                                       print("vul ashbe ${e}");
-  //                                     }
-  //                                   },
-  //                                   child: const Text('Continue'),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           )
-  //                           // Pinput()
-  //                         ],
-  //                       ),
-  //                     ),
-  //                     Positioned(
-  //                       top: 12,
-  //                       right: 10,
-  //                       child: IconButton(
-  //                           onPressed: () {
-  //                             Navigator.of(context).pop();
-  //                           },
-  //                           icon: Container(
-  //                             height: 40,
-  //                             width: 40,
-  //                             decoration: BoxDecoration(
-  //                                 color: Colors.grey,
-  //                                 borderRadius: BorderRadius.circular(100)),
-  //                             child: const Icon(
-  //                               Icons.clear,
-  //                               weight: 2,
-  //                               size: 23,
-  //                               color: Colors.white,
-  //                             ),
-  //                           )),
-  //                     )
-  //                   ],
-  //                 ),
-  //               );
-  //             });
-  //           });
-  //     },
-  //   );
-  // }
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //     context,
+                                      //     "/homepage",
+                                      //     (route) => false);
+                                    },
+                                    child: const Text('Continue'),
+                                  ),
+                                ],
+                              ),
+                            )
+                            // Pinput()
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 12,
+                        right: 10,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+                              child: const Icon(
+                                Icons.clear,
+                                weight: 2,
+                                size: 23,
+                                color: Colors.white,
+                              ),
+                            )),
+                      )
+                    ],
+                  ),
+                );
+              });
+            });
+      },
+    );
+  }
 }

@@ -1,17 +1,27 @@
-import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+part 'user_login.g.dart';
 
+@HiveType(typeId: 2)
 class UserLogin {
+  @HiveField(0)
   final String userId;
+  @HiveField(1)
   final String username;
+  @HiveField(2)
   final String areaId;
+  @HiveField(3)
   final String areaName;
+  @HiveField(4)
   final String password;
+  @HiveField(5)
   final String deviceId;
+  @HiveField(6)
   final String deviceBrand;
+  @HiveField(7)
   final String deviceModel;
-  List submittedList;
-  List feedList;
-  List feedListInteraction;
+  // List submittedList;
+  // List feedList;
+  // List feedListInteraction;
 
   UserLogin({
     required this.userId,
@@ -22,54 +32,54 @@ class UserLogin {
     required this.deviceId,
     required this.deviceBrand,
     required this.deviceModel,
-    required this.submittedList,
-    required this.feedList,
-    required this.feedListInteraction,
+    // required this.submittedList,
+    // required this.feedList,
+    // required this.feedListInteraction,
   });
 }
 
-class Product {
-  final String productId;
-  final String productName;
-  final double rightPrice;
+// class Product {
+//   final String productId;
+//   final String productName;
+//   final double rightPrice;
 
-  Product({
-    required this.productId,
-    required this.productName,
-    required this.rightPrice,
-  });
-}
+//   Product({
+//     required this.productId,
+//     required this.productName,
+//     required this.rightPrice,
+//   });
+// }
 
-class ProductEntry {
-  final String entryId;
-  final String userId;
-  final String productId;
-  final String productName;
-  final String productWeight;
-  final String productQuantity;
-  final String productState;
-  final String expDate;
-  final String batchDate;
-  final double submittedPrice;
-  final DateTime date;
+// class ProductEntry {
+//   final String entryId;
+//   final String userId;
+//   final String productId;
+//   final String productName;
+//   final String productWeight;
+//   final String productQuantity;
+//   final String productState;
+//   final String expDate;
+//   final String batchDate;
+//   final double submittedPrice;
+//   final DateTime date;
 
-  ProductEntry({
-    required this.entryId,
-    required this.userId,
-    required this.productId,
-    required this.productName,
-    required this.productWeight,
-    required this.productQuantity,
-    required this.productState,
-    required this.expDate,
-    required this.batchDate,
-    required this.submittedPrice,
-    required this.date,
-  });
-}
+//   ProductEntry({
+//     required this.entryId,
+//     required this.userId,
+//     required this.productId,
+//     required this.productName,
+//     required this.productWeight,
+//     required this.productQuantity,
+//     required this.productState,
+//     required this.expDate,
+//     required this.batchDate,
+//     required this.submittedPrice,
+//     required this.date,
+//   });
+// }
 
-List<ProductEntry> feedList = [];
-List<ProductEntry> mySubmittedList = [];
+// List<ProductEntry> feedList = [];
+// List<ProductEntry> mySubmittedList = [];
 
 
 
