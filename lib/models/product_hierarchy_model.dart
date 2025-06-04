@@ -2,8 +2,7 @@
 import 'dart:convert';
 
 List<ProductHierarchyModel> productHierarchyModelFromJson(String str) =>
-    List<ProductHierarchyModel>.from(
-        json.decode(str).map((x) => ProductHierarchyModel.fromJson(x)));
+    List<ProductHierarchyModel>.from(json.decode(str).map((x) => ProductHierarchyModel.fromJson(x)));
 
 String productHierarchyModelToJson(List<ProductHierarchyModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -17,18 +16,15 @@ class ProductHierarchyModel {
     required this.subCategoryList,
   });
 
-  factory ProductHierarchyModel.fromJson(Map<String, dynamic> json) =>
-      ProductHierarchyModel(
+  factory ProductHierarchyModel.fromJson(Map<String, dynamic> json) => ProductHierarchyModel(
         category: json["category"] ?? "",
-        subCategoryList: List<SubCategoryList>.from(
-            json["sub_category_list"].map((x) => SubCategoryList.fromJson(x)) ??
-                []),
+        subCategoryList:
+            List<SubCategoryList>.from(json["sub_category_list"].map((x) => SubCategoryList.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
         "category": category,
-        "sub_category_list":
-            List<dynamic>.from(subCategoryList.map((x) => x.toJson())),
+        "sub_category_list": List<dynamic>.from(subCategoryList.map((x) => x.toJson())),
       };
 }
 
@@ -41,11 +37,9 @@ class SubCategoryList {
     required this.items,
   });
 
-  factory SubCategoryList.fromJson(Map<String, dynamic> json) =>
-      SubCategoryList(
+  factory SubCategoryList.fromJson(Map<String, dynamic> json) => SubCategoryList(
         subCategory: json["sub_category"],
-        items: List<Items>.from(
-            json["item_list"].map((x) => Items.fromJson(x)) ?? []),
+        items: List<Items>.from(json["item_list"].map((x) => Items.fromJson(x)) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,7 +55,7 @@ class Items {
   String itemQuantity;
   String itemWeight;
   String itemPrice;
-  // String itemImagePath;
+  String itemImagePath;
   String batchDate;
   String expDate;
 
@@ -72,7 +66,7 @@ class Items {
     required this.itemQuantity,
     required this.itemWeight,
     required this.itemPrice,
-    // required this.itemImagePath,
+    required this.itemImagePath,
     required this.batchDate,
     required this.expDate,
   });
@@ -86,7 +80,7 @@ class Items {
         itemPrice: json["item_price"],
         batchDate: json["batch_date"],
         expDate: json["exp_date"],
-        // itemImagePath: json["item_image_path"],
+        itemImagePath: json["item_image_path"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,6 +92,6 @@ class Items {
         "item_price": itemPrice,
         "batch_date": batchDate,
         "exp_date": expDate,
-        // "item_image_path": itemImagePath,
+        "item_image_path": itemImagePath,
       };
 }

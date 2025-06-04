@@ -10,7 +10,6 @@ import 'package:market_price_control_app/UI/submitted_report_screen.dart';
 import 'package:market_price_control_app/local_storage/boxes.dart';
 import 'package:market_price_control_app/models/product_hierarchy_model.dart';
 import 'package:market_price_control_app/models/user_login.dart';
-import 'package:market_price_control_app/utils/constants.dart';
 import 'package:market_price_control_app/utils/dummy_data.dart';
 
 class Homepage extends StatefulWidget {
@@ -83,7 +82,7 @@ class _HomepageState extends State<Homepage> {
     },
     {
       "name": "Mymensingh",
-      "color": Color.fromARGB(255, 71, 83, 225), // Deep indigo
+      "color": const Color.fromARGB(255, 71, 83, 225), // Deep indigo
       "borderColor": const Color(0xFF7986CB), // Light indigo
       "select": false
     },
@@ -468,19 +467,26 @@ class _HomepageState extends State<Homepage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Center(
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 80,
                                     height: 60,
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.amberAccent,
-                                    ),
+                                    child: item.itemImagePath == ""
+                                        ? const CircleAvatar(
+                                            backgroundColor: Colors.amberAccent,
+                                          )
+                                        : Image.asset(
+                                            item.itemImagePath,
+                                            width: 110,
+                                            height: 80,
+                                            fit: BoxFit.scaleDown,
+                                          ),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   item.itemName,
                                   overflow: TextOverflow.ellipsis,
@@ -594,10 +600,10 @@ class _HomepageState extends State<Homepage> {
               PopupMenuItem<String>(
                 onTap: () {
                   Navigator.pushAndRemoveUntil(
-                      context, MaterialPageRoute(builder: (contex) => LoginPage()), (route) => false);
+                      context, MaterialPageRoute(builder: (contex) => const LoginPage()), (route) => false);
                 },
                 value: 'logout',
-                child: Text('Logout'),
+                child: const Text('Logout'),
               ),
             ],
           )
@@ -789,10 +795,10 @@ class ItemCardWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color.fromARGB(255, 77, 108, 243), width: 2),
+                    border: Border.all(color: const Color.fromARGB(255, 77, 108, 243), width: 2),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
                   child: Text(
                     productSubCat,
                     style: const TextStyle(
@@ -888,24 +894,24 @@ class ItemCardWidget extends StatelessWidget {
                         children: [
                           Column(
                             children: <Widget>[
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Center(
                                 child: Container(
-                                    width: 110,
-                                    height: 80,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.amberAccent,
-                                    )
-
-                                    //  Image.asset(
-                                    //   productList[index]["imageName"],
-                                    //   width: 110,
-                                    //   height: 80,
-                                    //   fit: BoxFit.scaleDown,
-                                    // ),
-                                    ),
+                                  width: 110,
+                                  height: 80,
+                                  child: productList[index].itemImagePath == ""
+                                      ? const CircleAvatar(
+                                          backgroundColor: Colors.amberAccent,
+                                        )
+                                      : Image.asset(
+                                          productList[index].itemImagePath,
+                                          width: 110,
+                                          height: 80,
+                                          fit: BoxFit.scaleDown,
+                                        ),
+                                ),
                               ),
                             ],
                           ),

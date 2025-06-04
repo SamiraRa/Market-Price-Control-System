@@ -69,7 +69,7 @@ class _AllItemScreenState extends State<AllItemScreen> {
                   crossAxisSpacing: 12.0,
                   childAspectRatio: 2.9 / 3,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 itemBuilder: (context, index) {
                   final item = itemList[index];
                   return InkWell(
