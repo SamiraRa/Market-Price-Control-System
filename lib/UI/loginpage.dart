@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:market_price_control_app/UI/area_screen.dart';
 import 'package:market_price_control_app/UI/homepage.dart';
 import 'package:market_price_control_app/UI/signup_page.dart';
 import 'package:market_price_control_app/local_storage/boxes.dart';
@@ -21,7 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage('assets/images/login.png'), fit: BoxFit.cover),
+        image: DecorationImage(
+            image: AssetImage('assets/images/login.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -37,7 +38,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -93,16 +95,21 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               const Text(
                                 'Log in',
-                                style: TextStyle(fontSize: 27, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    fontSize: 27, fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
                                 backgroundColor: const Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {
-                                      if (emailController.text == "abc@gmail.com" &&
-                                          passwordController.text == "123456") {
+                                    onPressed: () async {
+                                      if (await checkUserDetailsMatch(
+                                          emailController.text,
+                                          passwordController.text)) {
+                                        // if (emailController.text ==
+                                        //         "abc@gmail.com" &&
+                                        //     passwordController.text == "123456") {
                                         final loginData = UserLogin(
                                             userId: "userId001",
                                             username: nameController.text,
@@ -112,14 +119,21 @@ class _LoginPageState extends State<LoginPage> {
                                             deviceId: "",
                                             deviceBrand: "",
                                             deviceModel: "");
-                                        Boxes.getLoginData().put("userLogin", loginData);
-                                        Navigator.pushAndRemoveUntil(context,
-                                            MaterialPageRoute(builder: (context) => Homepage()), (route) => false);
+                                        Boxes.getLoginData()
+                                            .put("userLogin", loginData);
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Homepage()),
+                                            (route) => false);
                                       } else {
                                         // FlutterToast
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
-                                            content: Text('Invalid credentials. Please check your email, or password.'),
+                                            content: Text(
+                                                'Invalid credentials. Please check your email, or password.'),
                                             backgroundColor: Colors.red,
                                           ),
                                         );
@@ -139,14 +153,20 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupPage()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignupPage()));
                                 },
                                 style: const ButtonStyle(),
                                 child: const Text(
                                   'Sign Up',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      decoration: TextDecoration.underline, color: Color(0xff4c505b), fontSize: 18),
+                                      decoration: TextDecoration.underline,
+                                      color: Color(0xff4c505b),
+                                      fontSize: 18),
                                 ),
                               ),
                               TextButton(
@@ -172,5 +192,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<bool> checkUserDetailsMatch(String email, String phone) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('mpc_users')
+        .where('user_mail', isEqualTo: email)
+        .where('user_mobile', isEqualTo: phone)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
   }
 }

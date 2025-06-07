@@ -1,4 +1,5 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:market_price_control_app/UI/loginpage.dart';
 import 'package:pinput/pinput.dart';
@@ -34,7 +35,8 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage('assets/images/register.png'), fit: BoxFit.cover),
+        image: DecorationImage(
+            image: AssetImage('assets/images/register.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -53,7 +55,8 @@ class _SignupPageState extends State<SignupPage> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.28),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -200,7 +203,10 @@ class _SignupPageState extends State<SignupPage> {
                             children: [
                               const Text(
                                 'Sign Up',
-                                style: TextStyle(color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 27,
+                                    fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
@@ -208,13 +214,16 @@ class _SignupPageState extends State<SignupPage> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () async {
-                                      if (phoneController.text == "01713380485" &&
-                                          emailController.text == "abc@gmail.com" &&
+                                      if (phoneController.text ==
+                                              "01713380485" &&
+                                          emailController.text ==
+                                              "abc@gmail.com" &&
                                           passwordController.text == "123456") {
                                         showEditBottomSheetValues(context);
                                       } else {
                                         // FlutterToast
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
                                             content: Text(
                                                 'Invalid credentials. Please check your phone, email, or password.'),
@@ -254,31 +263,39 @@ class _SignupPageState extends State<SignupPage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 40,
+                            height: 10,
                           ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     TextButton(
-                          //       onPressed: () {
-                          //         Navigator.push(
-                          //             context,
-                          //             MaterialPageRoute(
-                          //                 builder: (context) =>
-                          //                     const LoginPage()));
-                          //       },
-                          //       style: const ButtonStyle(),
-                          //       child: const Text(
-                          //         'Sign In',
-                          //         textAlign: TextAlign.left,
-                          //         style: TextStyle(
-                          //             decoration: TextDecoration.underline,
-                          //             color: Colors.white,
-                          //             fontSize: 18),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Already have an\naccount?',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    // decoration: TextDecoration.underline,
+                                    color: Colors.white,
+                                    fontSize: 18),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()));
+                                },
+                                style: const ButtonStyle(),
+                                child: const Text(
+                                  'Log In',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.black38,
+                                      fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     )
@@ -334,28 +351,35 @@ class _SignupPageState extends State<SignupPage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            left: 17, right: 17, bottom: MediaQuery.of(context).viewInsets.bottom, top: 20),
+                            left: 17,
+                            right: 17,
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                            top: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
-                            Center(
+                            const Center(
                               child: Text(
                                 "Verification Code",
-                                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text("We've sent a 6 digit code to your phone number"),
-                            SizedBox(
+                            const Text(
+                                "We've sent a 6 digit code to your phone number"),
+                            const SizedBox(
                               height: 5,
                             ),
-                            Text("phone Number"),
-                            SizedBox(
+                            const Text("phone Number"),
+                            const SizedBox(
                               height: 30,
                             ),
                             Form(
@@ -389,37 +413,57 @@ class _SignupPageState extends State<SignupPage> {
                                         //     ),
                                         //   ],
                                         // ),
-                                        focusedPinTheme: defaultPinTheme.copyWith(
-                                          decoration: defaultPinTheme.decoration!.copyWith(
-                                            borderRadius: BorderRadius.circular(8),
-                                            border: Border.all(color: focusedBorderColor),
+                                        focusedPinTheme:
+                                            defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme
+                                              .decoration!
+                                              .copyWith(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                                color: focusedBorderColor),
                                           ),
                                         ),
-                                        submittedPinTheme: defaultPinTheme.copyWith(
-                                          decoration: defaultPinTheme.decoration!.copyWith(
+                                        submittedPinTheme:
+                                            defaultPinTheme.copyWith(
+                                          decoration: defaultPinTheme
+                                              .decoration!
+                                              .copyWith(
                                             color: fillColor,
-                                            borderRadius: BorderRadius.circular(19),
-                                            border: Border.all(color: focusedBorderColor),
+                                            borderRadius:
+                                                BorderRadius.circular(19),
+                                            border: Border.all(
+                                                color: focusedBorderColor),
                                           ),
                                         ),
-                                        errorPinTheme: defaultPinTheme.copyBorderWith(
-                                          border: Border.all(color: Colors.redAccent),
+                                        errorPinTheme:
+                                            defaultPinTheme.copyBorderWith(
+                                          border: Border.all(
+                                              color: Colors.redAccent),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   ElevatedButton(
-                                    style: ElevatedButton.styleFrom(fixedSize: Size(screenWidth / 1.8, 40)),
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: Size(screenWidth / 1.8, 40)),
                                     onPressed: () async {
                                       if (pinController.text == "123456") {
-                                        Navigator.pushAndRemoveUntil(context,
-                                            MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                                        createUser();
+
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LoginPage()),
+                                            (route) => false);
                                       } else {
                                         // FlutterToast
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
                                             content: Text('OTP is Invalid.'),
                                             backgroundColor: Colors.red,
@@ -452,7 +496,9 @@ class _SignupPageState extends State<SignupPage> {
                             icon: Container(
                               height: 40,
                               width: 40,
-                              decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(100)),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(100)),
                               child: const Icon(
                                 Icons.clear,
                                 weight: 2,
@@ -468,5 +514,18 @@ class _SignupPageState extends State<SignupPage> {
             });
       },
     );
+  }
+
+  Future createUser() async {
+    final docUser = FirebaseFirestore.instance.collection('mpc_users').doc();
+    final json = {
+      'user_id': docUser.id,
+      'user_name': 'x',
+      'user_mail': emailController.text,
+      'user_mobile': phoneController.text,
+      'user_pass': passwordController.text,
+      'created_at': DateTime.now()
+    };
+    await docUser.set(json);
   }
 }

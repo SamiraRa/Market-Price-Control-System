@@ -43,6 +43,9 @@ dependencies:
   flutter_bloc: ^8.1.2
   geocoding: ^2.1.0
   geolocator: ^9.0.2
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
   hive_flutter:
   http: ^1.0.0
   # location:

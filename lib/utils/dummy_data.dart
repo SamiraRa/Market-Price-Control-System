@@ -621,7 +621,7 @@ class DemoData {
             "item_quantity": "1 portion",
             "item_weight": "1 kg",
             "item_price": "380 BDT",
-            "item_image_path": "assets/images/rice-poultry/chicken-eggs.webp",
+            "item_image_path": "assets/images/rice-poultry/rui-fish.webp",
             "batch_date": "2025-05-21T00:00:00.000Z",
             "exp_date": "2025-05-23T00:00:00.000Z"
           },
@@ -725,7 +725,7 @@ class DemoData {
             "item_quantity": "1 piece (~800g)",
             "item_weight": "800g",
             "item_price": "900 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/hilsha-medium.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           },
@@ -736,7 +736,7 @@ class DemoData {
             "item_quantity": "1 piece (~1.2kg)",
             "item_weight": "1.2kg",
             "item_price": "1450 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/hilsha-large.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           }
@@ -752,7 +752,7 @@ class DemoData {
             "item_quantity": "1kg",
             "item_weight": "1kg",
             "item_price": "750 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/rupchanda.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           },
@@ -763,7 +763,7 @@ class DemoData {
             "item_quantity": "500g",
             "item_weight": "500g",
             "item_price": "180 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/loitta.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           },
@@ -774,7 +774,7 @@ class DemoData {
             "item_quantity": "1kg",
             "item_weight": "1kg",
             "item_price": "620 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/bhetki.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           }
@@ -790,7 +790,7 @@ class DemoData {
             "item_quantity": "500g",
             "item_weight": "500g",
             "item_price": "480 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/golda-chingri.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           },
@@ -801,7 +801,7 @@ class DemoData {
             "item_quantity": "500g",
             "item_weight": "500g",
             "item_price": "220 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/choto-chingri.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           },
@@ -812,7 +812,7 @@ class DemoData {
             "item_quantity": "1kg",
             "item_weight": "1kg",
             "item_price": "850 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/tiger-prawn.webp",
             "batch_date": "06-08-2025",
             "exp_date": "08-08-2025"
           }
@@ -833,7 +833,7 @@ class DemoData {
             "item_quantity": "100g",
             "item_weight": "100g",
             "item_price": "45 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/cinnamon.webp",
             "batch_date": "06-08-2025",
             "exp_date": "06-08-2026"
           },
@@ -844,7 +844,7 @@ class DemoData {
             "item_quantity": "50g",
             "item_weight": "50g",
             "item_price": "90 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/cardamom.webp",
             "batch_date": "06-08-2025",
             "exp_date": "06-08-2026"
           },
@@ -855,7 +855,7 @@ class DemoData {
             "item_quantity": "50g",
             "item_weight": "50g",
             "item_price": "60 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/cloves.webp",
             "batch_date": "06-08-2025",
             "exp_date": "06-08-2026"
           },
@@ -866,7 +866,7 @@ class DemoData {
             "item_quantity": "100g",
             "item_weight": "100g",
             "item_price": "35 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/cumin-seeds.webp",
             "batch_date": "06-08-2025",
             "exp_date": "06-08-2026"
           },
@@ -877,7 +877,7 @@ class DemoData {
             "item_quantity": "100g",
             "item_weight": "100g",
             "item_price": "25 BDT",
-            "item_image_path": "",
+            "item_image_path": "assets/images/rice-poultry/fenugreek-seeds.webp",
             "batch_date": "06-08-2025",
             "exp_date": "06-08-2026"
           }

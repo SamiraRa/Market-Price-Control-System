@@ -1,22 +1,21 @@
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:market_price_control_app/UI/homepage.dart';
-import 'package:market_price_control_app/UI/onboarding_screen.dart';
 import 'package:market_price_control_app/UI/signup_page.dart';
 import 'package:market_price_control_app/local_storage/boxes.dart';
 import 'package:market_price_control_app/local_storage/hive_adapters.dart';
 import 'package:market_price_control_app/models/user_login.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
   await HiveAdapter().hiveAdapterbox();
-//   await Firebase.initializeApp(
-//   options: DefaultFirebaseOptions.currentPlatform,
-// );
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       // home: (loginData != null && loginData!.username.isNotEmpty) ? const Homepage() : const SignupPage(),
-      home: Homepage(),
+      home: SignupPage(),
     );
   }
 }
