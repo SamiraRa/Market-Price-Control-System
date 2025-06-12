@@ -25,13 +25,21 @@ class UserLoginAdapter extends TypeAdapter<UserLogin> {
       deviceId: fields[5] as String,
       deviceBrand: fields[6] as String,
       deviceModel: fields[7] as String,
+      gender: fields[8] as String,
+      phoneNum: fields[9] as String,
+      address: fields[10] as String,
+      nid: fields[11] as String,
+      email: fields[12] as String,
+      dateOfBirth: fields[13] as String,
+      age: fields[14] as String,
+      likedForms: fields[15] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserLogin obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.userId)
       ..writeByte(1)
@@ -47,7 +55,23 @@ class UserLoginAdapter extends TypeAdapter<UserLogin> {
       ..writeByte(6)
       ..write(obj.deviceBrand)
       ..writeByte(7)
-      ..write(obj.deviceModel);
+      ..write(obj.deviceModel)
+      ..writeByte(8)
+      ..write(obj.gender)
+      ..writeByte(9)
+      ..write(obj.phoneNum)
+      ..writeByte(10)
+      ..write(obj.address)
+      ..writeByte(11)
+      ..write(obj.nid)
+      ..writeByte(12)
+      ..write(obj.email)
+      ..writeByte(13)
+      ..write(obj.dateOfBirth)
+      ..writeByte(14)
+      ..write(obj.age)
+      ..writeByte(15)
+      ..write(obj.likedForms);
   }
 
   @override

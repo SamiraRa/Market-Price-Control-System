@@ -6,6 +6,7 @@ import 'package:market_price_control_app/UI/all_item_screen.dart';
 import 'package:market_price_control_app/UI/explore.dart';
 import 'package:market_price_control_app/UI/loginpage.dart';
 import 'package:market_price_control_app/UI/product_details_screen.dart';
+import 'package:market_price_control_app/UI/profile_screen.dart';
 import 'package:market_price_control_app/UI/submitted_report_screen.dart';
 import 'package:market_price_control_app/local_storage/boxes.dart';
 import 'package:market_price_control_app/models/product_hierarchy_model.dart';
@@ -582,31 +583,70 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
-            onSelected: (value) {
-              if (value == 'logout') {
-                // Implement your logout logic here
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              }
-            },
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
-                value: 'name',
-                enabled: false,
-                child: Text(userName),
-              ),
-              // const PopupMenuDivider(),
-              PopupMenuItem<String>(
-                onTap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context, MaterialPageRoute(builder: (contex) => const LoginPage()), (route) => false);
-                },
-                value: 'logout',
-                child: const Text('Logout'),
-              ),
-            ],
-          )
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0, top: 10),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Color.fromARGB(255, 159, 173, 238),
+                        width: 3, // Thick border
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Text(
+                        userName.isNotEmpty ? userName[0].toUpperCase() : '',
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 77, 108, 243),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // PopupMenuButton<String>(
+          //   icon: const Icon(Icons.more_vert, color: Colors.white),
+          //   onSelected: (value) {
+          //     if (value == 'logout') {
+          //       // Implement your logout logic here
+          //       Navigator.of(context).popUntil((route) => route.isFirst);
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => [
+          //     PopupMenuItem<String>(
+          //       value: 'name',
+          //       enabled: false,
+          //       child: Text(userName),
+          //     ),
+          //     // const PopupMenuDivider(),
+          //     PopupMenuItem<String>(
+          //       onTap: () {
+          //         Navigator.pushAndRemoveUntil(
+          //             context, MaterialPageRoute(builder: (contex) => const LoginPage()), (route) => false);
+          //       },
+          //       value: 'logout',
+          //       child: const Text('Logout'),
+          //     ),
+          //   ],
+          // )
         ],
         title: const Text(
           "HOMEPAGE",
@@ -898,9 +938,9 @@ class ItemCardWidget extends StatelessWidget {
                                 height: 10,
                               ),
                               Center(
-                                child: Container(
+                                child: SizedBox(
                                   width: 110,
-                                  height: 80,
+                                  height: 85,
                                   child: productList[index].itemImagePath == ""
                                       ? const CircleAvatar(
                                           backgroundColor: Colors.amberAccent,
@@ -909,7 +949,7 @@ class ItemCardWidget extends StatelessWidget {
                                           productList[index].itemImagePath,
                                           width: 110,
                                           height: 80,
-                                          fit: BoxFit.scaleDown,
+                                          fit: BoxFit.contain,
                                         ),
                                 ),
                               ),

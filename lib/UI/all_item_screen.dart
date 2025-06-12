@@ -114,13 +114,19 @@ class _AllItemScreenState extends State<AllItemScreen> {
                             height: 10,
                           ),
                           Center(
-                            child: Container(
-                              width: 80,
-                              height: 60,
-                              child: const CircleAvatar(
-                                backgroundColor: Colors.amberAccent,
-                              ),
-                            ),
+                            child: SizedBox(
+                                width: 90,
+                                height: 70,
+                                child: item.itemImagePath == ""
+                                    ? const CircleAvatar(
+                                        backgroundColor: Colors.amberAccent,
+                                      )
+                                    : Image.asset(
+                                        item.itemImagePath,
+                                        // width: 110,
+                                        // height: 200,
+                                        fit: BoxFit.cover,
+                                      )),
                           ),
                           Spacer(),
                           Text(

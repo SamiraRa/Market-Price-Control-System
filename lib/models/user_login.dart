@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:hive_flutter/hive_flutter.dart';
+
 part 'user_login.g.dart';
 
 @HiveType(typeId: 2)
@@ -19,6 +21,22 @@ class UserLogin {
   final String deviceBrand;
   @HiveField(7)
   final String deviceModel;
+  @HiveField(8)
+  final String gender;
+  @HiveField(9)
+  final String phoneNum;
+  @HiveField(10)
+  final String address;
+  @HiveField(11)
+  final String nid;
+  @HiveField(12)
+  final String email;
+  @HiveField(13)
+  final String dateOfBirth;
+  @HiveField(14)
+  final String age;
+  @HiveField(15)
+  String likedForms;
   // List submittedList;
   // List feedList;
   // List feedListInteraction;
@@ -32,9 +50,14 @@ class UserLogin {
     required this.deviceId,
     required this.deviceBrand,
     required this.deviceModel,
-    // required this.submittedList,
-    // required this.feedList,
-    // required this.feedListInteraction,
+    required this.gender,
+    required this.phoneNum,
+    required this.address,
+    required this.nid,
+    required this.email,
+    required this.dateOfBirth,
+    required this.age,
+    required this.likedForms,
   });
 }
 
